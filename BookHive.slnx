@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BookHiveApi/BookHiveApi.csproj" />
+  <Project Path="BookHiveMVC/BookHiveMVC.csproj" Id="e59cb2ea-151a-40a0-ae28-b310d8cd0903" />
+</Solution>
