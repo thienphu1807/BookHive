@@ -10,5 +10,6 @@ namespace BookHiveApi.Repository.IRepository
         Task<SignInResult> CheckPassword(User user, string password);
         Task<User> GetUserByEmail(string email);
         Task<IdentityResult> ChangePassword(User user, string oldPass, string newPass);
+        Task<SignInResult> LoginUser(string email, string password, bool isPersistent);
     }
 }

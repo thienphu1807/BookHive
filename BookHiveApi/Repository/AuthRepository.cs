@@ -31,5 +31,9 @@ namespace BookHiveApi.Repository
         {
             return await _userManager.ChangePasswordAsync(user, oldPass, newPass);
         }
+        public async Task<SignInResult> LoginUser(string email, string password, bool isPersistent)
+        {
+            return await _signInManager.PasswordSignInAsync(email, password, isPersistent, lockoutOnFailure: false);
+        }
     }
 }

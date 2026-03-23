@@ -35,9 +35,12 @@ namespace BookHiveApi.Services
         public async Task<ResponseAuth?> Login(LoginDto dto)
         {
             var user = await _authRepo.GetUserByEmail(dto.Email);
-            if (user == null) return null;
+            if (user == null)
+            {
+                return null;
+            }
 
-            var result = await _authRepo.CheckPassword(user, dto.Password);
+            var result = await _authRepo.LoginUser(dto.Email, dto.Password, isPersistent: false);
             var reponseAuth = _mapper.Map<ResponseAuth>(user);
             return result.Succeeded ? reponseAuth : null;
         }
