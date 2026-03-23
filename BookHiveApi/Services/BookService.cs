@@ -8,10 +8,10 @@ namespace BookHiveApi.Services
 {
     public class BookService
     {
-        private BookRepository _bookRepository;
+        private IBookRepository _bookRepository;
         private readonly IMapper _mapper;
 
-        public BookService(BookRepository bookRepository, IMapper mapper)
+        public BookService(IBookRepository bookRepository, IMapper mapper)
         {
             _bookRepository = bookRepository;
             _mapper = mapper;

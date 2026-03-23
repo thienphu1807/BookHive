@@ -23,6 +23,7 @@ namespace BookHiveApi.Data
 
             builder.Entity<BookAuthor>().HasKey(ba => new {ba.BookId, ba.AuthorId});
             builder.Entity<BookCategory>().HasKey(bc => new { bc.BookId, bc.CategoryId });
+            builder.Entity<UserBookReview>().HasKey(ubr => new { ubr.UserId, ubr.BookId });
 
             //Config Relationship Book - Author
 

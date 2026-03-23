@@ -11,5 +11,6 @@ namespace BookHiveApi.Repository.IRepository
         ICollection<T> Find(Expression<Func<T, bool>> predicate);
         bool Delete(int id);
         bool SaveChange();
+        bool HasValue(int id);
     }
 }

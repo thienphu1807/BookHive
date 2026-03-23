@@ -1,11 +1,12 @@
 ﻿using BookHiveApi.Data;
 using BookHiveApi.Models;
 using BookHiveApi.Models.Dtos;
+using BookHiveApi.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookHiveApi.Repository
 {
-    public class CategoryRepository : Repository<Category>
+    public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         public CategoryRepository(AppDbContext appDbContext) : base(appDbContext)
         {

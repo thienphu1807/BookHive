@@ -90,7 +90,7 @@ namespace BookHiveApi.Controllers
             {
                 return Unauthorized();
             }
-            var result = _bookService.AddBookRating(bookId, userId, addBookReview)
+            var result = _bookService.AddBookRating(bookId, userId, addBookReview);
             return result ? Ok() : BadRequest();
         }
         [HttpPut("{id}")]

@@ -1,11 +1,12 @@
 ﻿using BookHiveApi.Data;
 using BookHiveApi.Models;
 using BookHiveApi.Models.Dtos;
+using BookHiveApi.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookHiveApi.Repository
 {
-    public class AuthorRepository : Repository<Author>
+    public class AuthorRepository : Repository<Author>, IAuthorRepository
     {
         public AuthorRepository(AppDbContext appDbContext) : base(appDbContext)
         {

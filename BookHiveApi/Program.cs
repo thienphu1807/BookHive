@@ -30,9 +30,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 
 //Register Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<AuthorRepository>();
-builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IAuthRepository,AuthRepository>();
 
 //Register Service
