@@ -1,0 +1,17 @@
+﻿@model BookHiveMVC.Models.Author
+
+<h2>Edit Author</h2>
+
+<form asp-action="Edit" method="post">
+    <div >
+        <label asp-for="Name">Author Name</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Nationality">Nationality</label>
+        <input asp-for="Nationality" />
+        <span asp-validation-for="Nationality"></span>
+    </div>
+    <button type="submit">Edit</button>
+</form>

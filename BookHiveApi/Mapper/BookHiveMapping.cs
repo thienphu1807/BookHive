@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookHiveApi.Models;
+using BookHiveApi.Models.Dto;
 using BookHiveApi.Models.Dtos;
 
 namespace BookHiveApi.Mapper

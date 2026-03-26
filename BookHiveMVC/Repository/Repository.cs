@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -6,10 +7,12 @@ namespace BookHiveMVC.Repository
 {
     public class Repository<T> : IRepository.IRepository<T> where T : class
     {
-        private readonly IHttpClientFactory _clientFactory;
-        public Repository(IHttpClientFactory clientFactory)
+        protected readonly IHttpClientFactory _clientFactory;
+        protected readonly IMapper _mapper;
+        public Repository(IHttpClientFactory clientFactory, IMapper mapper)
         {
             _clientFactory = clientFactory;
+            _mapper = mapper;
         }
 
         public async Task<T> GetAsync(string url, int id)
@@ -25,7 +28,7 @@ namespace BookHiveMVC.Repository
             return null;
         }
 
-        public async Task<ICollection<T>> GetAllAsync(string url)
+        public virtual async Task<ICollection<T>> GetAllAsync(string url)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var client = _clientFactory.CreateClient();
@@ -78,7 +81,7 @@ namespace BookHiveMVC.Repository
 
         public async Task<bool> DeleteAsync(string url, int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            var request = new HttpRequestMessage(HttpMethod.Delete, url + id);
 
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);

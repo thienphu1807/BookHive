@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookHiveMVC.Models
+{
     public class Category
     {
         [Key]

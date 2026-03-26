@@ -30,9 +30,9 @@ namespace BookHiveApi.Services
             var author = _mapper.Map<Author>(authorDtos);
             return await _authorRepository.CreateAsync(ApiEndpoints.AuthorAPIPath, author);
         }
-        public async Task<bool> UpdateAuthor(Author author)
+        public async Task<bool> UpdateAuthor(int id, Author author)
         {
-            return await _authorRepository.UpdateAsync(ApiEndpoints.AuthorAPIPath, author);
+            return await _authorRepository.UpdateAsync(ApiEndpoints.AuthorAPIPath + id.ToString(), author);
         }
         public async Task<bool> DeleteAuthor(int id)
         {

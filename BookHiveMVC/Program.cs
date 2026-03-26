@@ -1,9 +1,27 @@
 using BookHiveApi.Mapper;
+using BookHiveApi.Services;
+using BookHiveMVC.Repository;
+using BookHiveMVC.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add HttpClientFactory
+builder.Services.AddHttpClient();
+
+//Register Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+//Register Service
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<AuthorService>();
+builder.Services.AddScoped<BookService>();
+
 
 //Register AutoMap
 builder.Services.AddAutoMapper(

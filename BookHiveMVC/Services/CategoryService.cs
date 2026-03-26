@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using BookHiveApi.Models;
-using BookHiveApi.Models.Dtos;
-using BookHiveApi.Repository;
-using BookHiveApi.Repository.IRepository;
+using BookHiveMVC;
+using BookHiveMVC.Models;
+using BookHiveMVC.Models.Dto;
+using BookHiveMVC.Repository;
+using BookHiveMVC.Repository.IRepository;
 
 namespace BookHiveApi.Services
 {
@@ -11,39 +12,32 @@ namespace BookHiveApi.Services
         private ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryService(ICategoryRepository CategoryRepository, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = CategoryRepository;
             _mapper = mapper;
         }
-        public ICollection<Category> GetAllCategories()
+        public async Task<ICollection<Category>> GetAllCategory()
         {
-            return _categoryRepository.GetAll();
+            return await _categoryRepository.GetAllAsync(ApiEndpoints.CategoryAPIPath);
         }
-        public Category GetCategoryById(int id)
+        public async Task<Category> GetCategoryById(int id)
         {
-            return _categoryRepository.Get(id);
+            return await _categoryRepository.GetAsync(ApiEndpoints.CategoryAPIPath, id);
         }
-        public bool AddCategory(CreateCategory categoryDtos)
+        public async Task<bool> AddCategory(CreateCategory CategoryDtos)
         {
-            var category = _mapper.Map<Category>(categoryDtos);
-            return _categoryRepository.Add(category);
+            var Category = _mapper.Map<Category>(CategoryDtos);
+            return await _categoryRepository.CreateAsync(ApiEndpoints.CategoryAPIPath, Category);
         }
-        public bool UpdateCategory(Category category)
+        public async Task<bool> UpdateCategory(int id, CreateCategory CategoryDtos)
         {
-            return _categoryRepository.Update(category);
+            var Category = _mapper.Map<Category>(CategoryDtos);
+            return await _categoryRepository.UpdateAsync(ApiEndpoints.CategoryAPIPath + id.ToString(), Category);
         }
-        public bool DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
-            return _categoryRepository.Delete(id);
-        }
-        public bool HasCategory(int id)
-        {
-            return _categoryRepository.HasValue(id);
-        }
-        public ICollection<Book> GetBooksFromCategory(int categoryId)
-        {
-            return _categoryRepository.GettBookFromCategory(categoryId);
+            return await _categoryRepository.DeleteAsync(ApiEndpoints.CategoryAPIPath, id);
         }
     }
 }

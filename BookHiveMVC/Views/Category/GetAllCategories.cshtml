@@ -1,0 +1,50 @@
+﻿@model ICollection<BookHiveMVC.Models.Category>
+
+@{
+    ViewData["Title"] = "Task Categories";
+}
+
+<h2>Task List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <form asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" method="get">
+                                    <button type="submit" class="btn btn-danger">Edit Category</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete Category</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">No Categories available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Category" asp-action="Create">Create Category</a>
+</div>

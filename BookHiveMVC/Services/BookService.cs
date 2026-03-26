@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using BookHiveApi.Models;
-using BookHiveApi.Models.Dtos;
-using BookHiveApi.Repository;
-using BookHiveApi.Repository.IRepository;
+using BookHiveMVC;
+using BookHiveMVC.Models;
+using BookHiveMVC.Models.Dto;
+using BookHiveMVC.Repository;
+using BookHiveMVC.Repository.IRepository;
 
 namespace BookHiveApi.Services
 {
@@ -16,42 +17,41 @@ namespace BookHiveApi.Services
             _bookRepository = bookRepository;
             _mapper = mapper;
         }
-        public ICollection<Book> GetAllBook()
+        public async Task<ICollection<GetBook>> GetAllBook()
         {
-            return _bookRepository.GetAll();
+            return await _bookRepository.GetAllBookAsync(ApiEndpoints.BookAPIPath);
         }
-        public ICollection<Book> GetBookByTitle(string title)
+        public async Task<ICollection<GetBook>> GetBookByTitle(string title)
         {
-             var book = _bookRepository.GetBooksByTitle(title);
+            var book = await _bookRepository.GetBookByTitleAsync(ApiEndpoints.BookAPIPath, title);
             return book;
         }
-        public Book GetBookById(int id)
+        public async Task<ICollection<GetBook>> GetBookFromAuthor(int authorId)
         {
-            return _bookRepository.Get(id);
+            var book = await _bookRepository.GetBookFromAuthorAsync(ApiEndpoints.BookAPIPath, authorId);
+            return book;
         }
-        public bool AddBook(CreateBook bookDtos)
+        public async Task<ICollection<GetBook>> GetBookFromCategory(int categoryId)
         {
-            var book = _mapper.Map<Book>(bookDtos);
-            return _bookRepository.Add(book);
+            var book = await _bookRepository.GetBookFromCategoryAsync(ApiEndpoints.BookAPIPath, categoryId);
+            return book;
         }
-        public bool AddBookRating(int bookId, string userId, AddBookReview AddBookReview)
+        public async Task<Book> GetBookById(int id)
         {
-            var review = _mapper.Map<UserBookReview>(AddBookReview);
-            review.BookId = bookId;
-            review.UserId = userId;
-            return _bookRepository.AddRating(review);
+            return await _bookRepository.GetAsync(ApiEndpoints.BookAPIPath, id);
         }
-        public bool UpdateBook(Book book)
+        public async Task<bool> AddBook(CreateBook BookDtos)
         {
-            return _bookRepository.Update(book);
+            var Book = _mapper.Map<Book>(BookDtos);
+            return await _bookRepository.CreateAsync(ApiEndpoints.BookAPIPath, Book);
         }
-        public bool DeleteBook(int id)
+        public async Task<bool> UpdateBook(int id, Book Book)
         {
-            return _bookRepository.Delete(id);
+            return await _bookRepository.UpdateAsync(ApiEndpoints.BookAPIPath + id, Book);
         }
-        public bool HasBook(int id)
+        public async Task<bool> DeleteBook(int id)
         {
-            return _bookRepository.HasValue(id);
+            return await _bookRepository.DeleteAsync(ApiEndpoints.BookAPIPath, id);
         }
     }
 }

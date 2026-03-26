@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookHiveApi.Models;
+using BookHiveApi.Models.Dto;
 using BookHiveApi.Models.Dtos;
 using BookHiveApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -65,7 +66,7 @@ namespace BookHiveApi.Controllers
             return Ok(getBook);
         }
         [HttpGet("title")]
-        public IActionResult GetBookFromCategory(string title)
+        public IActionResult GetBookFromTilte(string title)
         {
             var book = _bookService.GetBookByTitle(title);
             if (book == null)

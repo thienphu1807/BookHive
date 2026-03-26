@@ -1,0 +1,48 @@
+﻿@model ICollection<BookHiveMVC.Models.Author>
+
+<h2>Author List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Author Name</th>
+            <th>Nationality</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var author in Model)
+            {
+                <tr>
+                    <td>@author.Name</td>
+                    <td>@author.Nationality</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <form asp-controller="Author" asp-action="Edit" asp-route-id="@author.Id" method="get">
+                                    <button type="submit" class="btn btn-danger">Edit Category</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-controller="Author" asp-action="Delete" asp-route-id="@author.Id" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete Category</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">No Author available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Author" asp-action="Create">Create Author</a>
+</div>

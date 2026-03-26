@@ -1,4 +1,5 @@
 ﻿namespace BookHiveMVC.Models.Dto
+{
     public class CreateBook
     {
         public string Title { get; set; }

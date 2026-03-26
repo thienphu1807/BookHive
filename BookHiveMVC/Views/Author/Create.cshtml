@@ -1,0 +1,17 @@
+﻿@model BookHiveMVC.Models.Dto.CreateAuthor
+
+<h2>Create Author</h2>
+
+<form asp-action="Create" method="post">
+    <div >
+        <label asp-for="Name">Author Name</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Nationality">Nationality</label>
+        <input asp-for="Nationality" />
+        <span asp-validation-for="Nationality"></span>
+    </div>
+    <button type="submit">Create</button>
+</form>
