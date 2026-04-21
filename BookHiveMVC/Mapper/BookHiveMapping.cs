@@ -2,7 +2,7 @@
 using BookHiveMVC.Models;
 using BookHiveMVC.Models.Dto;
 
-namespace BookHiveApi.Mapper
+namespace BookHiveMVC.Mapper
 {
     public class BookHiveMapping : Profile
     {

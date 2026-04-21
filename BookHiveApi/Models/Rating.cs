@@ -2,8 +2,10 @@
 {
     public enum Rating
     {
-        Poor = 1,
-        Medium = 2,
-        Good = 3
+        OneStar = 1,
+        TwoStars = 2,
+        ThreeStars = 3,
+        FourStars = 4,
+        FiveStars = 5
     }
 }

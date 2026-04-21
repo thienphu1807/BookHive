@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookHiveApi.Services;
+using BookHiveMVC.Services;
 using BookHiveMVC.Models;
 using BookHiveMVC.Models.Dto;
 using BookHiveMVC.Repository.IRepository;

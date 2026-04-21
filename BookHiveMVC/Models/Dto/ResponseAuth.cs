@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookHiveApi.Models.Dtos
+namespace BookHiveMVC.Models.Dtos
 {
     public class ResponseAuth
     {

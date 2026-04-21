@@ -4,6 +4,7 @@ using BookHiveApi.Models.Dto;
 using BookHiveApi.Models.Dtos;
 using BookHiveApi.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,13 +18,15 @@ namespace BookHiveApi.Controllers
         private readonly BookService _bookService;
         private readonly CategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public BookController(BookService bookService, CategoryService categoryService, AuthorService authorService, IMapper mapper)
+        public BookController(BookService bookService, CategoryService categoryService, AuthorService authorService, IMapper mapper, UserManager<User> userManager)
         {
             _bookService = bookService;
             _categoryService = categoryService;
             _authorService = authorService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -83,16 +86,35 @@ namespace BookHiveApi.Controllers
             return result ? Ok() : BadRequest();
         }
         [HttpPost("{bookId}/review")]
-        public IActionResult RateBook(int bookId, [FromBody] AddBookReview addBookReview)
+        public async Task<IActionResult> RateBook(int bookId, [FromBody] AddBookReview addBookReview)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = Request.Headers["X-UserName"].FirstOrDefault();
 
-            if (userId == null)
+            if (string.IsNullOrEmpty(userName))
+            {
+                return BadRequest("Missing username header");
+            }
+
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == userName);
+            if (user == null)
             {
                 return Unauthorized();
             }
-            var result = _bookService.AddBookRating(bookId, userId, addBookReview);
-            return result ? Ok() : BadRequest();
+
+            var success = _bookService.AddBookRating(bookId, user.Id, addBookReview);
+            if (success)
+            {
+                var reviews = await _bookService.GetBookRating(bookId);
+                return Ok(reviews);
+            }
+
+            return BadRequest("Could not add review");
+        }
+        [HttpGet("{bookId}/review")]
+        public async Task<IActionResult> GetBookReview(int bookId)
+        {
+            var result = await _bookService.GetBookRating(bookId);
+            return result != null ? Ok(result) : BadRequest();
         }
         [HttpPut("{id}")]
         public  IActionResult Update(int id, [FromBody] CreateBook book)

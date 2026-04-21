@@ -2,10 +2,11 @@
 using BookHiveMVC;
 using BookHiveMVC.Models;
 using BookHiveMVC.Models.Dto;
+using BookHiveMVC.Models.Dtos;
 using BookHiveMVC.Repository;
 using BookHiveMVC.Repository.IRepository;
 
-namespace BookHiveApi.Services
+namespace BookHiveMVC.Services
 {
     public class BookService
     {
@@ -28,13 +29,28 @@ namespace BookHiveApi.Services
         }
         public async Task<ICollection<GetBook>> GetBookFromAuthor(int authorId)
         {
-            var book = await _bookRepository.GetBookFromAuthorAsync(ApiEndpoints.BookAPIPath, authorId);
+            var book = await _bookRepository.GetBookFromAuthorAsync(ApiEndpoints.BookAPIPath+ "author/", authorId);
             return book;
         }
         public async Task<ICollection<GetBook>> GetBookFromCategory(int categoryId)
         {
-            var book = await _bookRepository.GetBookFromCategoryAsync(ApiEndpoints.BookAPIPath, categoryId);
+            var book = await _bookRepository.GetBookFromCategoryAsync(ApiEndpoints.BookAPIPath + "category/", categoryId);
             return book;
+        }
+        public async Task<ICollection<GetBookReview>> GetBookReview(int bookId)
+        {
+            var book = await _bookRepository.GetBookReview(ApiEndpoints.BookAPIPath, bookId);
+            return book;
+        }
+        public async Task<bool> AddBookRating(int bookId,AddBookReview addBookReview)
+        {
+            var success = await _bookRepository.AddBookReviewAsync(ApiEndpoints.BookAPIPath, bookId, addBookReview);
+
+            if (success)
+            {
+                return true;
+            }
+            return false;
         }
         public async Task<Book> GetBookById(int id)
         {
@@ -42,8 +58,8 @@ namespace BookHiveApi.Services
         }
         public async Task<bool> AddBook(CreateBook BookDtos)
         {
-            var Book = _mapper.Map<Book>(BookDtos);
-            return await _bookRepository.CreateAsync(ApiEndpoints.BookAPIPath, Book);
+            //var Book = _mapper.Map<Book>(BookDtos);
+            return await _bookRepository.CreateBookAsync(ApiEndpoints.BookAPIPath, BookDtos);
         }
         public async Task<bool> UpdateBook(int id, Book Book)
         {

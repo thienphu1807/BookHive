@@ -5,7 +5,7 @@ using BookHiveMVC.Models.Dto;
 using BookHiveMVC.Repository;
 using BookHiveMVC.Repository.IRepository;
 
-namespace BookHiveApi.Services
+namespace BookHiveMVC.Services
 {
     public class AuthorService
     {

@@ -3,6 +3,7 @@ using BookHiveApi.Models;
 using BookHiveApi.Models.Dtos;
 using BookHiveApi.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace BookHiveApi.Services
@@ -13,13 +14,15 @@ namespace BookHiveApi.Services
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AuthService(IAuthRepository authRepo, IMapper mapper, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        public AuthService(IAuthRepository authRepo, IMapper mapper, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _authRepo = authRepo;
             _mapper = mapper;
             _roleManager = roleManager;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public async Task<IdentityResult> Register(RegisterDto dto)
         {
@@ -41,7 +44,9 @@ namespace BookHiveApi.Services
             }
 
             var result = await _authRepo.LoginUser(dto.Email, dto.Password, isPersistent: false);
+            var roles = await _userManager.GetRolesAsync(user);
             var reponseAuth = _mapper.Map<ResponseAuth>(user);
+            reponseAuth.Role = roles.FirstOrDefault();
             return result.Succeeded ? reponseAuth : null;
         }
         public async Task<ResponseAuth> UpdatePassword(UpdatePasswordDto dto)
@@ -82,6 +87,11 @@ namespace BookHiveApi.Services
             var reponseAuth = _mapper.Map<ResponseAuth>(user);
 
             return reponseAuth;
+        }
+        public async Task<ResponseAuth> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return null;
         }
     }
 }

@@ -1,0 +1,91 @@
+﻿@model ICollection<BookHiveMVC.Models.Dtos.GetBookReview>
+@{
+    ViewData["Title"] = "Book Reviews";
+}
+
+<h2>Book Reviews</h2>
+
+<table class="table table-striped" id="reviewTable">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Rating</th>
+            <th>User Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var book in Model)
+            {
+                <tr>
+                    <td>@book.BookTitle</td>
+                    <td>@book.Description</td>
+                    <td>@book.Rating</td>
+                    <td>@book.UserName</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No Book available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+@{
+    decimal totalRating = 0M;
+    foreach (var book in Model)
+    {
+        totalRating += (int)book.Rating;
+    }
+    decimal averageRating = totalRating / Model.Count();
+}
+<div>average Rating @averageRating</div>
+<hr />
+
+<h3>Add Book Review</h3>
+<form id="reviewForm">
+    <input type="hidden" name="BookId" value="@ViewBag.BookId" />
+    <div class="form-group">
+        <label>Description</label>
+        <textarea name="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Rating</label>
+        <input type="number" name="Rating" class="form-control" min="1" max="5" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#reviewForm").submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+        url: '/Book/AddBookRating',
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function (data) {
+        $("#reviewTable tbody").html("");
+        $.each(data, function (i, review) {
+        $("#reviewTable tbody").append(
+        "<tr><td>" + review.bookTitle + "</td>" +
+        "<td>" + review.description + "</td>" +
+        "<td>" + review.rating + "</td>" +
+        "<td>" + review.userName + "</td></tr>"
+        );
+        });
+        },
+        error: function () {
+        alert("Error submitting review");
+        }
+        });
+        });
+    </script>
+}

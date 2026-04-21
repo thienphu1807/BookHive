@@ -1,6 +1,7 @@
 ﻿using BookHiveApi.Models.Dtos;
 using BookHiveApi.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -32,7 +33,6 @@ namespace BookHiveApi.Controllers
 
             return Ok(user);
         }
-
         [HttpPost("updatepassword")]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordDto dto)
         {
@@ -60,6 +60,16 @@ namespace BookHiveApi.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             var roles = User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
             return Ok (new { userName, email, roles });
+        }
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _authService.Logout();
+            if (result == null)
+            {
+                return BadRequest("Something wrong");
+            }
+            return Ok(new { message = "Logout successful" });
         }
     }
 }

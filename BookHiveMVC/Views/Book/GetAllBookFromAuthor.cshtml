@@ -48,11 +48,6 @@
                                     <button type="submit" class="btn btn-danger">Delete Book</button>
                                 </form>
                             </li>
-                            <li>
-                                <form asp-controller="Book" asp-action="GetBookRating" asp-route-bookId="@book.Id" method="post">
-                                    <button type="submit" class="btn btn-danger">Get Book Review</button>
-                                </form>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -79,7 +74,7 @@
             <li class="page-item @(i == currentPage ? "active" : "")">
                 <a class="page-link"
                        asp-controller="Book"
-                       asp-action="GetAllBook"
+                       asp-action="GetAllBookFromAuthor"
                        asp-route-authorId="@ViewBag.AuthorId"
                        asp-route-page="@i"
                        asp-route-pageSize="@ViewBag.PageSize">

@@ -11,9 +11,11 @@ namespace BookHiveApi.Repository
         public AuthorRepository(AppDbContext appDbContext) : base(appDbContext)
         {
         }
-        public ICollection<Book> GettBookFromAuthor(int  AuthorId)
+        public ICollection<Book> GettBookFromAuthor(int AuthorId)
         {
-            return _appDbContext.Books.Include(ba => ba.BookAuthors).ThenInclude(a => a.Author )
+            return _appDbContext.Books.
+                Include(ba => ba.BookAuthors).ThenInclude(a => a.Author)
+                                .Include(b => b.BookCategories).ThenInclude(bc => bc.Category)
                 .Where(b => b.BookAuthors.Any(ba => ba.AuthorId == AuthorId)).ToList();
         }
     }

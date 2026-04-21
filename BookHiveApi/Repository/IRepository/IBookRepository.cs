@@ -1,4 +1,5 @@
 ﻿using BookHiveApi.Models;
+using BookHiveApi.Models.Dtos;
 
 namespace BookHiveApi.Repository.IRepository
 {
@@ -6,5 +7,6 @@ namespace BookHiveApi.Repository.IRepository
     {
         ICollection<Book> GetBooksByTitle(string title);
         bool AddRating(UserBookReview userBookReview);
+        Task<List<GetBookReview>> GetBookRating(int bookId);
     }
 }

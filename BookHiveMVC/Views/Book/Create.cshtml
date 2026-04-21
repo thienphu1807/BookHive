@@ -1,12 +1,30 @@
-﻿@model BookHiveMVC.Models.Dto.CreateCategory
+﻿@model BookHiveMVC.Models.Dto.CreateBook
 
-<h2>Create Category</h2>
+<h2>Create Book</h2>
 
 <form asp-action="Create" method="post">
     <div >
-        <label asp-for="Name">Category Name</label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <label asp-for="PublishDate">PublishDate</label>
+        <input asp-for="PublishDate" type="date" />
+        <span asp-validation-for="PublishDate"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryIds">Category</label>
+        <select asp-for="CategoryIds" class="form-control" asp-items="ViewBag.Categories" multiple="multiple"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="AuthorIds">Category</label>
+        <select asp-for="AuthorIds" class="form-control" asp-items="ViewBag.Authors" multiple="multiple"></select>
     </div>
     <button type="submit">Create</button>
 </form>

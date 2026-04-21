@@ -30,6 +30,11 @@
                                     <button type="submit" class="btn btn-danger">Delete Category</button>
                                 </form>
                             </li>
+                            <li>
+                                <form asp-controller="Book" asp-action="GetAllBookFromAuthor" asp-route-authorId="@author.Id" method="post">
+                                    <button type="submit" class="btn btn-danger">Get Book From Author</button>
+                                </form>
+                            </li>
                         </ul>
                     </td>
                 </tr>

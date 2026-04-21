@@ -41,6 +41,10 @@ namespace BookHiveApi.Services
             review.UserId = userId;
             return _bookRepository.AddRating(review);
         }
+        public async Task<List<GetBookReview>> GetBookRating(int bookId)
+        {
+            return await _bookRepository.GetBookRating(bookId);
+        }
         public bool UpdateBook(Book book)
         {
             return _bookRepository.Update(book);

@@ -12,6 +12,7 @@ namespace BookHiveApi.Mapper
             CreateMap<Category, CreateCategory>().ReverseMap();
             CreateMap<Author, CreateAuthor>().ReverseMap();
             CreateMap<User, ResponseAuth>().ReverseMap();
+            CreateMap<UserBookReview, AddBookReview>().ReverseMap();
 
             CreateMap<RegisterDto, User>()
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
@@ -27,9 +28,6 @@ namespace BookHiveApi.Mapper
             src.BookAuthors.Select(ba => ba.Author.Name).ToList()))
             .ForMember(c => c.CategoryNames, opt => opt.MapFrom(src =>
                 src.BookCategories.Select(bc => bc.Category.Name).ToList()));
-
-            CreateMap<UserBookReview, AddBookReview>()
-                .ForMember(r => r.Rating, opt => opt.MapFrom(src => src.Rating));
         }
     }
 }
